@@ -37,6 +37,7 @@ public class Robot extends TimedRobot {
   SpeedControllerGroup leftDriveTrain = new SpeedControllerGroup(leftMaster, leftSlave);
   SpeedControllerGroup rightDriveTrain = new SpeedControllerGroup(rightMaster, rightSlave);
   DifferentialDrive driveTrain = new DifferentialDrive(leftDriveTrain, rightDriveTrain);
+  Jaguar flyWheel = new Jaguar(4);
 
   /**
    * This function is run when the robot is first started up and should be
@@ -64,7 +65,7 @@ public class Robot extends TimedRobot {
     } 
     if(controller.getY(Hand.kLeft) == -1) {
       System.out.println("All the way up");
-    } lol*/
+    } */
   }
 
   /**
@@ -113,7 +114,17 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    driveTrain.arcadeDrive(controller.getY(Hand.kLeft), controller.getX(Hand.kLeft));
+    //driveTrain.arcadeDrive(controller.getY(Hand.kLeft), controller.getX(Hand.kLeft));
+
+    //Controller Speed Module
+
+    if(controller.getAButton()) {
+      flyWheel.setSpeed(controller.getY(Hand.kLeft));
+    } else if(controller.getY(Hand.kLeft) == 0) {
+      flyWheel.setSpeed(0);
+    }
+
+    System.out.println(flyWheel.getSpeed());
   }
 
   /**
