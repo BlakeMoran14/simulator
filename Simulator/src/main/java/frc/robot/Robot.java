@@ -64,7 +64,7 @@ public class Robot extends TimedRobot {
     } 
     if(controller.getY(Hand.kLeft) == -1) {
       System.out.println("All the way up");
-    } */
+    } lol*/
   }
 
   /**
