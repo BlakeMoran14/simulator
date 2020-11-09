@@ -7,7 +7,13 @@
 
 package frc.robot;
 
+
+import edu.wpi.first.wpilibj.Jaguar;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -23,6 +29,14 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  XboxController controller = new XboxController(0);
+  Jaguar leftMaster = new Jaguar(0);
+  Jaguar leftSlave = new Jaguar(1);
+  Jaguar rightMaster = new Jaguar(2);
+  Jaguar rightSlave = new Jaguar(3);
+  SpeedControllerGroup leftDriveTrain = new SpeedControllerGroup(leftMaster, leftSlave);
+  SpeedControllerGroup rightDriveTrain = new SpeedControllerGroup(rightMaster, rightSlave);
+  DifferentialDrive driveTrain = new DifferentialDrive(leftDriveTrain, rightDriveTrain);
 
   /**
    * This function is run when the robot is first started up and should be
@@ -45,6 +59,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    /**if(controller.getY(Hand.kLeft) == 1) {
+      System.out.println("All the way down");
+    } 
+    if(controller.getY(Hand.kLeft) == -1) {
+      System.out.println("All the way up");
+    } */
   }
 
   /**
@@ -93,6 +113,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    driveTrain.arcadeDrive(controller.getY(Hand.kLeft), controller.getX(Hand.kLeft));
   }
 
   /**
